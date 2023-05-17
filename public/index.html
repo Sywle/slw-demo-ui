@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script src="https://webapi.amap.com/maps?v=2.0&key=fe0ba25bd090dbf0c9e00b82b3306f3b"></script>
+    <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+    
+    <script type="text/javascript"
+    src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=4E3Ff1235499afe706e5df2e438b9f34"></script>
+  <link href="https://mapopen.cdn.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.css"
+    rel="stylesheet">
+  <script type="text/javascript"
+    src="https://mapopen.cdn.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.js"></script>
+  <script type="text/javascript"
+    src="https://mapopen.cdn.bcebos.com/github/BMapGLLib/DistanceTool/src/DistanceTool.min.js"></script>
+    <!-- 3d模型资源 -->
+    <script src="http://bos3d.bimwinner.com/static/latest/BOS3D.min.js" charset="utf-8" type="application/javascript"></script>
+    <link href="http://bos3d.bimwinner.com/static/UI/latest/BOS3DUI.min.css" rel="stylesheet">
+    <script src="http://bos3d.bimwinner.com/static/UI/latest/BOS3DUI.min.js"></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
