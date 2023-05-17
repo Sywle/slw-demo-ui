@@ -1,4 +1,4 @@
-# vue2lx
+# slw-demo-ui
 
 ## Project setup
 ```
