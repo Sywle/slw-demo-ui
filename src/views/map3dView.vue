@@ -20,20 +20,33 @@ export default ({
       viewer3D: '',
       findAllList: '',
       isbackColor: 1,
-      token: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyS2V5IjoiNzQ1NTcyOTU5NTc4MTQzIiwidXNlck5hbWUiOiJzdW5sZXdlbiIsInVzZXJUeXBlIjoiMSIsImFwcEtleSI6InU3NWNhMTU5NDU0YzRjYjE4NGJkMmYzNTJhYjI1MzEzIiwiYXBwTmFtZSI6IjM2MOW6lOeUqOaooeWeiyIsImFwcERiIjoidTc1Y2ExNTk0NTRjNGNiMTg0YmQyZjM1MmFiMjUzMTMiLCJsb2dpblRpbWUiOiIxNjg0Mjg3NTUyNjczIiwiZXhwIjowfQ.QwDOr3Ii88Sstt3-AOLmAH-OJLx9jgErS5FnCdT8QPE'
+      token: '1',
+      project: [
+        {
+          modelKey: 'M1683872392915',
+          projectKey: 'z4d121fa350247caa738ca56497844ac'
+        },
+        {
+          modelKey: 'M1683879955261',
+          projectKey: 'z4d121fa350247caa738ca56497844ac'
+        }
+      ]
     }
   },
   mounted() {
-    this.bos3d()
+    // this.bos3d()
+    this.getInfo()
   },
+  // M1598257565598 he3285593fdc4ea3b91784c5741ff8aa
   methods: {
     bos3d() {
+      const that = this
       const html = document.querySelector("html");
       document.querySelector(".viewport").style.width = html.clientWidth + 'px';
       document.querySelector(".viewport").style.height = html.clientHeight - 1 + 'px';
       const option = {host: "http://bos3d.bimwinner.com", viewport: "viewport"};
       const viewer3D = new BOS3D.Viewer(option);
-      this.viewer3D = viewer3D
+      that.viewer3D = viewer3D
       new BOS3DUI({
         viewer3D,
         BOS3D: window.BOS3D,
@@ -62,17 +75,21 @@ export default ({
         //   reset:true, //复位
         //   moreMenu:false //更多
         // }
+
       })
       // 添加视图
       // modelKey:模型key
       // projectKey:项目key
-      viewer3D.addView("M1683872392915", "z4d121fa350247caa738ca56497844ac", this.token);
-      viewer3D.addView("M1683879955261", "z4d121fa350247caa738ca56497844ac", this.token);
+      for(let i = 0; i < that.project.length; i++) {
+        that.viewer3D.addView(that.project[i].modelKey, that.project[i].projectKey, this.token);
+      }
+      // that.viewer3D.addView("M1683872392915", "z4d121fa350247caa738ca56497844ac", this.token);
+      // that.viewer3D.addView("M1683879955261", "z4d121fa350247caa738ca56497844ac", this.token);
       // ON_LOAD_COMPLETE：加载完成
-      viewer3D.registerModelEventListener(window.BOS3D.EVENTS.ON_LOAD_COMPLETE, (event) => {
+      that.viewer3D.registerModelEventListener(window.BOS3D.EVENTS.ON_LOAD_COMPLETE, (event) => {
         // key:构件key
         // 通过key进行控件旋转
-        viewer3D.rotateComponentByKey("M1683872392915_2fe5XPmKnFnhnF3PtNQVTR");
+        that.viewer3D.rotateComponentByKey("M1683872392915_2fe5XPmKnFnhnF3PtNQVTR");
         // 设置物项位置
         // viewer3D.setModelMatrix('M1683872392915', new BOS3D.THREE.Matrix4().set(
         //   1, 0, 0, 0,
@@ -80,24 +97,24 @@ export default ({
         //   0, 0, 1, 0,
         //   0, 0, 0, 1
         // ))
-        viewer3D.setModelMatrix('M1683879955261', new BOS3D.THREE.Matrix4().set(
+        that.viewer3D.setModelMatrix('M1683879955261', new BOS3D.THREE.Matrix4().set(
           1, 0, 0, 0,
           0, 1, 0, 0,
           0, 0, 1, 0,
           0, 0, 0, 1
         ))
-        let findAllByKey = viewer3D.getAllComponentsKey();
-        let findAll = viewer3D.getComponentsByKey(findAllByKey);
-        this.findAllList = findAll.length
+        let findAllByKey = that.viewer3D.getAllComponentsKey();
+        let findAll = that.viewer3D.getComponentsByKey(findAllByKey);
+        that.findAllList = findAll.length
       })
       // 单击事件
-      viewer3D.registerModelEventListener(window.BOS3D.EVENTS.ON_CLICK_PICK, (event) => {
+      that.viewer3D.registerModelEventListener(window.BOS3D.EVENTS.ON_CLICK_PICK, (event) => {
         console.log("event：", event)
       })
       // 加载模型监听函数
-      viewer3D.registerModelEventListener(BOS3D.EVENTS.ON_LOAD_ERROR, (event) => {
-          alert("模型加载异常监听")
-          this.getInfo()
+      that.viewer3D.registerModelEventListener(BOS3D.EVENTS.ON_LOAD_ERROR, (event) => {
+          // alert("模型加载异常监听")
+          that.getInfo()
       });
     },
     fullscreen() {
@@ -122,12 +139,14 @@ export default ({
       }
     },
     getInfo() {
+      const that = this
       let xhr = new XMLHttpRequest()
       xhr.onreadystatechange = function () {
         if(this.readyState === 4) {
           if(this.status === 200) {
-            console.log(JSON.parse(this.response).data);
-            this.token = JSON.parse(this.response).data.access_token
+            that.token = JSON.parse(this.response).data.access_token
+            document.getElementById('viewport').innerHTML = ''
+            that.bos3d()
           }
         }
       }
