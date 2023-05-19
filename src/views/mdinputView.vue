@@ -67,6 +67,10 @@ export default ({
       }
     }
   },
+  mounted() {
+    const apiUrl = process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX
+    console.log(apiUrl, '-123123123-');
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
